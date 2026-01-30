@@ -1,0 +1,23 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+#Testing
+/coverage
+
+# Next.js build output
+/.next/
+/out/
+/build/
+/dist/
+
+# Misc
+.DS_Store
+*.pem
+.env.local
+.env.production.local
+.eve.test.local
+.eve.development.local
+.env
+thumbs.db
