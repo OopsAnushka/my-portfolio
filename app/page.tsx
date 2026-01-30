@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import About from './components/Aboutdark';
-import AssignmentSection from './components/AssignmentSection';
 import ProjectsSection from './components/ProjectsSection';
 import CertificationSection from './components/CertificationSection';
 import ContactSection from './components/ContactSection';
@@ -27,7 +26,6 @@ export default function Home() {
       <Header />
       <HeroSection />
       <About />
-      <AssignmentSection />
       <ProjectsSection />
       <CertificationSection />
       <ContactSection />
