@@ -6,27 +6,32 @@
 
 
 * {
-  font-family: 'Barrio', cursive  ;
+  font-family: 'Pompiere', cursive; /* */
   line-height: 1.5;
   letter-spacing: 0.5px;
 }
 
 html,
 body {
-  font-family: 'Barrio', cursive;
+  font-family: 'Pompiere', cursive;
   line-height: 1.5;
   letter-spacing: 0.5px;
+  font-size: 16px;
+  scroll-behavior: smooth;
   
 }
 
-.name-gradient {
-  font-weight: bold;
-  background: linear-gradient(45deg, #d342b6, #ff7a3e, #f9ca24, #ff4d5a);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientAnimation 5s ease infinite;
+@media (min-width: 768px) {
+  html {
+    font-size: 18px; /* Even larger on desktop */
+  }
 }
+h1, h2, h3 {
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+}
+
+
 
 @keyframes gradientAnimation {
   0% {

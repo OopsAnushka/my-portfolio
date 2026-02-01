@@ -9,6 +9,7 @@ import ProjectsSection from './components/ProjectsSection';
 import CertificationSection from './components/CertificationSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
+import SkillsSection from './components/SkillsSection';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -26,6 +27,7 @@ export default function Home() {
       <Header />
       <HeroSection />
       <About />
+      <SkillsSection/>
       <ProjectsSection />
       <CertificationSection />
       <ContactSection />

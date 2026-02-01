@@ -14,7 +14,7 @@ const config: Config = {
         // Define a new custom font family
         // playwrite: ['var(--font-playwrite-au-qld)', 'cursive'],
         // You can also make it the default sans font if you wish
-         sans: ['Barrio', 'cursive'],
+         sans: ['Pompiere', 'cursive'],
       },
     },
   },

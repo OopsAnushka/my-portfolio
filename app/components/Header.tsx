@@ -28,7 +28,7 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const menuItems = ['About','Projects','Certificate'];
+  const menuItems = ['About', 'Skills', 'Projects','Certificates'];
 
   // 5. This check prevents theme-related hydration mismatch errors
   if (!mounted) {

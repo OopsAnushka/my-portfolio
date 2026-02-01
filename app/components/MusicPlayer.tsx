@@ -10,7 +10,7 @@ export const MusicPlayer = () => {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.8;
+      audioRef.current.volume = 0.4;
     }
   }, []);
 

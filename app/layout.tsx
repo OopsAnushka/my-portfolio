@@ -1,33 +1,59 @@
+'use client';
+
+import { useEffect } from 'react';
 import Preloader from "./components/Preloader";
 import Providers from './components/theme-provider';
 import { ControlDock } from './components/ControlDock';
-import type { ReactNode } from "react";
 import "./globals.css";
-import { Barrio } from "next/font/google";
+import { Pompiere } from "next/font/google"; 
 
-// Import Barrio font
-const barrio = Barrio({
+const pompiere = Pompiere({
   subsets: ["latin"],
   weight: "400",
+  display: 'swap',
 });
-
-export const metadata = {
-  title: "My Portfolio",
-  description: "Portfolio built with Next.js",
-};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  
+  useEffect(() => {
+    // Initialize the audio object
+    const clickSound = new Audio('/click.mp3'); 
+    clickSound.volume = 0.4;
+
+    const handleButtonClick = (event: MouseEvent) => {
+      // Find the closest parent that is a button or a link
+      const target = event.target as HTMLElement;
+      const isClickable = target.closest('button') || target.closest('a');
+
+      // Only play if the click was on a button or link
+      if (isClickable) {
+        clickSound.currentTime = 0; // Reset to allow rapid clicks
+        clickSound.play().catch(() => {
+          // Playback may be blocked by browser until first interaction
+        });
+      }
+    };
+
+    // Attach the listener to the window
+    window.addEventListener('click', handleButtonClick);
+
+    // Clean up the listener when the component unmounts
+    return () => window.removeEventListener('click', handleButtonClick);
+  }, []);
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={barrio.className}>
-        {/* Wrap everything in ThemeProvider */}
+      <body className={`${pompiere.className} antialiased`}>
         <Providers>
           <Preloader>
-            {children}
+            {/* Wrapping content in a larger base font size for the handwriting font */}
+            <main className="text-[22px] md:text-[24px] leading-relaxed">
+              {children}
+            </main>
           </Preloader>
           <ControlDock/>
         </Providers>
