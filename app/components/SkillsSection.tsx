@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import { Cpu, Layout, Server, Cloud, X, Code, Globe, Terminal } from 'lucide-react';
 
 const skills = [
@@ -66,7 +67,8 @@ export default function SkillsSection() {
 
   return (
     <section id="skills" className="py-24 px-6 bg-white dark:bg-black transition-colors duration-500 relative">
-      <div className="max-w-6xl mx-auto">
+  
+      <div className="max-w-6xl mx-auto z-10 relative">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

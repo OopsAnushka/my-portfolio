@@ -1,4 +1,4 @@
-// app/page.tsx
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -23,15 +23,17 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-black min-h-screen overflow-x-hidden">
+    <div className="bg-black min-h-screen overflow-x-hidden relative">
       <Header />
       <HeroSection />
+      <div className="relative z-10 bg-black">
       <About />
       <SkillsSection/>
       <ProjectsSection />
       <CertificationSection />
       <ContactSection />
       <Footer />
+    </div>
     </div>
   );
 }

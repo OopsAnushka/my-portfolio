@@ -4,12 +4,21 @@ import { useEffect } from 'react';
 import Preloader from "./components/Preloader";
 import Providers from './components/theme-provider';
 import { ControlDock } from './components/ControlDock';
+import SmoothScroll from './components/SmoothScroll';
+import CustomCursor from './components/CustomCursor'
 import "./globals.css";
-import { Pompiere } from "next/font/google"; 
+import { Pompiere, Inter } from "next/font/google"; 
 
 const pompiere = Pompiere({
   subsets: ["latin"],
   weight: "400",
+  variable: '--font-pompiere',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: '--font-inter',
   display: 'swap',
 });
 
@@ -20,42 +29,38 @@ export default function RootLayout({
 }) {
   
   useEffect(() => {
-    // Initialize the audio object
+    // Optional: Keep your click sound logic if you like it
     const clickSound = new Audio('/click.mp3'); 
     clickSound.volume = 0.4;
 
     const handleButtonClick = (event: MouseEvent) => {
-      // Find the closest parent that is a button or a link
       const target = event.target as HTMLElement;
       const isClickable = target.closest('button') || target.closest('a');
-
-      // Only play if the click was on a button or link
       if (isClickable) {
-        clickSound.currentTime = 0; // Reset to allow rapid clicks
-        clickSound.play().catch(() => {
-          // Playback may be blocked by browser until first interaction
-        });
+        clickSound.currentTime = 0; 
+        clickSound.play().catch(() => {});
       }
     };
-
-    // Attach the listener to the window
     window.addEventListener('click', handleButtonClick);
-
-    // Clean up the listener when the component unmounts
     return () => window.removeEventListener('click', handleButtonClick);
   }, []);
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${pompiere.className} antialiased`}>
+      <body className={`${pompiere.variable} ${inter.variable} antialiased bg-black text-white`}>
         <Providers>
           <Preloader>
-            {/* Wrapping content in a larger base font size for the handwriting font */}
-            <main className="text-[22px] md:text-[24px] leading-relaxed">
-              {children}
-            </main>
+            {/* The Custom Cursor lives here to float above everything */}
+            <CustomCursor />
+            
+            <SmoothScroll>
+              <main className="font-sans text-[18px] md:text-[20px] leading-relaxed selection:bg-white selection:text-black">
+                {children}
+              </main>
+            </SmoothScroll>
+
+            <ControlDock/>
           </Preloader>
-          <ControlDock/>
         </Providers>
       </body>
     </html>

@@ -5,32 +5,20 @@
 @tailwind utilities;
 
 
-* {
-  font-family: 'Pompiere', cursive; /* */
-  line-height: 1.5;
-  letter-spacing: 0.5px;
-}
 
 html,
+:root {
+  --font-pompiere: 'Pompiere', cursive;
+  --font-inter: 'Inter', sans-serif;
+}
+
 body {
-  font-family: 'Pompiere', cursive;
-  line-height: 1.5;
-  letter-spacing: 0.5px;
-  font-size: 16px;
-  scroll-behavior: smooth;
-  
+  font-family: var(--font-inter); /* Default to clean font */
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 18px; /* Even larger on desktop */
-  }
+h1, h2, h3, .display-text {
+  font-family: var(--font-pompiere); /* Use display font for headings */
 }
-h1, h2, h3 {
-  font-size: 2.5rem;
-  letter-spacing: 1px;
-}
-
 
 
 @keyframes gradientAnimation {
