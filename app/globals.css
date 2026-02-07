@@ -47,9 +47,7 @@ h1, h2, h3, .display-text {
   100% { transform: translate(0, 0); }
 }
 
-html {
-  scroll-behavior: smooth;
-}
+
 
 /* Needed for 3D flip */
 .perspective {

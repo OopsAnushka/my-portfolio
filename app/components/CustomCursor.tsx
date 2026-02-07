@@ -19,13 +19,16 @@ export default function CustomCursor() {
     return () => window.removeEventListener('mousemove', moveCursor);
   }, [cursorX, cursorY]);
 
+  // Wrapped in hidden md:block to only show on desktop (md and larger)
   return (
-    <motion.div
-      className="fixed top-0 left-0 w-8 h-8 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference"
-      style={{
-        x: cursorXSpring,
-        y: cursorYSpring,
-      }}
-    />
+    <div className="hidden md:block">
+      <motion.div
+        className="fixed top-0 left-0 w-8 h-8 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference"
+        style={{
+          x: cursorXSpring,
+          y: cursorYSpring,
+        }}
+      />
+    </div>
   );
 }

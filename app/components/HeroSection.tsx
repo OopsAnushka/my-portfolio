@@ -1,17 +1,58 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { Volume2, VolumeX } from 'lucide-react'; 
 import styles from './HeroSection.module.css';
 import image from '../assets/portrait-bright.png';
 
-const ImageReveal = () => {
+const HeroSection = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const lensRadius = 125;
+  // --- Music Player State ---
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+      setShowPrompt(false); // Hide prompt immediately on user interaction
+    }
+  };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.4;
+      
+      const playPromise = audioRef.current.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Browser blocked autoplay -> Show prompt
+          setIsPlaying(false);
+          setShowPrompt(true);
+
+          // NEW: Auto-hide the popup after 60 seconds (60000 ms)
+          const timer = setTimeout(() => {
+            setShowPrompt(false);
+          }, 60000);
+
+          // Cleanup timer if component unmounts before 60s
+          return () => clearTimeout(timer);
+        });
+      }
+    }
+  }, []);
+
+  const lensRadius = 125;
   const maskPosition = useTransform(
     [mouseX, mouseY],
     ([x, y]) =>
@@ -27,11 +68,11 @@ const ImageReveal = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
-  // CHANGED: The component now returns a React Fragment
   return (
     <>
+      <audio ref={audioRef} src="/background-music.mp3" loop />
+
       <section className={styles.heroContainer}>
-        {/* Bottom Layer (revealed) */}
         <div className={styles.bottomLayer}>
           <Image
             src={image}
@@ -49,9 +90,8 @@ const ImageReveal = () => {
           </div>
         </div>
 
-        {/* Top Layer (masked by mouse) */}
         <motion.div
-          className={styles.topLayer}
+          className={`${styles.topLayer} hidden md:block`}
           style={{
             maskImage: maskPosition,
             WebkitMaskImage: maskPosition,
@@ -65,6 +105,39 @@ const ImageReveal = () => {
         </h1>
           </div>
         </motion.div>
+
+       {/* --- Volume Control Wrapper --- */}
+       <div className="absolute bottom-10 right-6 z-50 flex flex-col items-end gap-2">
+         
+         {/* Popup Tooltip */}
+         <AnimatePresence>
+           {showPrompt && (
+             <motion.div
+               initial={{ opacity: 0, x: 20 }}
+               animate={{ opacity: 1, x: 0 }}
+               exit={{ opacity: 0, scale: 0.9 }}
+               className="bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs px-3 py-2 rounded-lg relative shadow-lg"
+             >
+               <span className="whitespace-nowrap">Tap to play sound 🎵</span>
+               {/* Tiny arrow pointing down-right */}
+               <div className="absolute -bottom-1 right-3 w-2 h-2 bg-white/10 border-b border-r border-white/20 rotate-45 transform"></div>
+             </motion.div>
+           )}
+         </AnimatePresence>
+
+         <button 
+            onClick={togglePlay}
+            className="p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 transition-all duration-300 group shadow-lg"
+            aria-label="Toggle background music"
+          >
+            {isPlaying ? (
+              <Volume2 className="text-white w-5 h-5 group-hover:scale-110 transition-transform" />
+            ) : (
+              <VolumeX className="text-white/70 w-5 h-5 group-hover:scale-110 transition-transform" />
+            )}
+          </button>
+       </div>
+
        <a href="#about" className={styles.scrollButton}>
           <span>Scroll to explore</span>
           <svg
@@ -85,10 +158,10 @@ const ImageReveal = () => {
           </svg>
         </a>
       </section>
+      
       <div className={styles.filmGrain} />
-    
     </>
   );
 };
 
-export default ImageReveal;
+export default HeroSection;

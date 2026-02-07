@@ -1,4 +1,3 @@
-
 'use client';
 
 import { motion } from 'framer-motion';
@@ -12,7 +11,6 @@ export default function Footer() {
 
   const currentYear = new Date().getFullYear();
 
-
   return (
     <div className="py-16 px-6 border-t border-gray-800 relative" ref={ref}>
       <div className="max-w-7xl mx-auto">
@@ -23,7 +21,8 @@ export default function Footer() {
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8, delay: 1.2 }}
         >
-          <div className="text-gray-400 font-['Roboto'] text-sm">
+          {/* Removed font-['Roboto'] */}
+          <div className="text-gray-400 text-sm">
             © {currentYear} Anushka Sharma. All rights reserved.
           </div>
           
@@ -32,7 +31,7 @@ export default function Footer() {
               <motion.a
                 key={item}
                 href="#"
-                className="text-gray-400 hover:text-[#D8ECF8] font-['Roboto'] transition-colors duration-300 cursor-pointer whitespace-nowrap"
+                className="text-gray-400 hover:text-[#D8ECF8] transition-colors duration-300 cursor-pointer whitespace-nowrap"
                 initial={{ opacity: 0, y: 10 }}
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                 transition={{ duration: 0.8, delay: 1.4 + index * 0.1 }}

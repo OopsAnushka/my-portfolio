@@ -1,211 +1,175 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
 
 const projects = [
   {
     id: 1,
-    title: 'Hotel Booking Website',
-    description: 'A revolutionary booking experience with 3D room visualization, real-time availability, and seamless checkout flow. Built with React and modern UI principles.',
-    techStack: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-    // Replace the links below with your actual URLs
-    demoLink: 'https://hotel-room-booking.vercel.app/', 
+    title: 'Hotel Booking Engine',
+    description: 'A comprehensive full-stack solution for luxury hotel chains. Features include real-time room availability, 3D room previews, secure Stripe payments, and an admin dashboard for reservation management.',
+    tech: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+    image: '/hotel-preview.jpg', // Ensure this exists in /public
+    color: '#1a1a1a', // Dark card background
+    demoLink: 'https://hotel-room-booking.vercel.app/',
     repoLink: 'https://github.com/anushka8418/hotelRoom-Booking.git',
-    image: 'hotel-preview.jpg',
-    direction: 'left'
   },
+  {
+    id: 2,
+    title: 'AI Career Advisor',
+    description: 'An intelligent platform helping students navigate their career paths. Uses NLP to analyze resumes and suggest tailored learning roadmaps, integrated with a mentorship connection system.',
+    tech: ['Python', 'FastAPI', 'Next.js', 'OpenAI API'],
+    image: '/hotel-preview.jpg', // Placeholder
+    color: '#0f172a', // Slate card background
+    demoLink: '#',
+    repoLink: '#',
+  },
+  {
+    id: 3,
+    title: 'Creative Portfolio',
+    description: 'The website you are looking at right now. Built with a focus on performance, smooth animations, and accessibility. Features custom spotlight effects and sticky scroll interactions.',
+    tech: ['Next.js', 'Framer Motion', 'Tailwind', 'TypeScript'],
+    image: '/hotel-preview.jpg', // Placeholder
+    color: '#171717', // Neutral card background
+    demoLink: '#',
+    repoLink: '#',
+  }
 ];
 
+// Individual Card Component
+const Card = ({ 
+  i, 
+  project, 
+  progress, 
+  range, 
+  targetScale 
+}: { 
+  i: number; 
+  project: typeof projects[0]; 
+  progress: MotionValue<number>; 
+  range: number[]; 
+  targetScale: number; 
+}) => {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start end', 'start start']
+  });
+
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1.2, 1]);
+  const scale = useTransform(progress, range, [1, targetScale]);
+
+  return (
+    <div 
+      ref={container} 
+      className="h-screen flex items-center justify-center sticky top-0"
+    >
+      <motion.div 
+        style={{ 
+          scale, 
+          backgroundColor: project.color, 
+          top: `calc(-5vh + ${i * 25}px)` 
+        }} 
+        className="flex flex-col relative h-[500px] w-full max-w-5xl rounded-3xl p-10 origin-top border border-white/10 overflow-hidden shadow-2xl"
+      >
+        <div className="flex flex-col md:flex-row h-full gap-12">
+          
+          {/* Left Content */}
+          <div className="w-full md:w-[40%] flex flex-col justify-between relative z-10">
+            <div>
+               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{project.title}</h2>
+               <p className="text-zinc-400 leading-relaxed text-sm md:text-base">
+                 {project.description}
+               </p>
+            </div>
+
+            <div className="mt-8">
+               <div className="flex flex-wrap gap-2 mb-8">
+                 {project.tech.map((t) => (
+                   <span key={t} className="px-3 py-1 rounded-full border border-white/10 text-xs text-zinc-300 bg-white/5">
+                     {t}
+                   </span>
+                 ))}
+               </div>
+
+               <div className="flex items-center gap-4">
+                 <a 
+                   href={project.demoLink} 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   className="flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium text-sm hover:bg-zinc-200 transition-colors"
+                 >
+                   Live Demo <ArrowUpRight size={16} />
+                 </a>
+                 <a 
+                   href={project.repoLink} 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 text-white font-medium text-sm hover:bg-white/10 transition-colors"
+                 >
+                   Github
+                 </a>
+               </div>
+            </div>
+          </div>
+
+          {/* Right Image */}
+          <div className="w-full md:w-[60%] relative h-full rounded-2xl overflow-hidden bg-black/20 border border-white/5">
+             <motion.div style={{ scale: imageScale }} className="w-full h-full relative">
+                <Image
+                  fill
+                  src={project.image}
+                  alt={project.title}
+                  className="object-cover"
+                />
+             </motion.div>
+          </div>
+
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
 export default function ProjectsSection() {
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start start', 'end end']
   });
 
   return (
-    <section id="projects" className="py-20 px-6 relative" ref={ref}>
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h2 className="text-5xl font-bold font-['Roboto'] mb-6 text-white">
-            Featured{' '}
-            <span className="bg-gradient-to-r from-[#D8ECF8] to-white bg-clip-text text-transparent">
-              Projects
-            </span>
+    <section ref={container} id="projects" className="relative bg-black py-20">
+       <div className="max-w-7xl mx-auto px-6 mb-20">
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 uppercase tracking-tighter">
+             Selected Works
           </h2>
-          <p className="text-gray-300 font-['Roboto'] text-lg max-w-2xl mx-auto">
-            Showcasing innovative solutions that push the boundaries of web development 
-            and create meaningful user experiences.
+          <p className="text-zinc-500 max-w-md">
+             Real-world applications built with modern technologies.
           </p>
-        </motion.div>
+       </div>
 
-        <div className="space-y-32">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              className={`grid lg:grid-cols-2 gap-16 items-center ${
-                project.direction === 'right' ? 'lg:grid-flow-col-dense' : ''
-              }`}
-              initial={{ opacity: 0, y: 50 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-            >
-              {/* Project Image */}
-              <motion.div
-                className={`relative group ${
-                  project.direction === 'right' ? 'lg:col-start-2' : ''
-                }`}
-                initial={{ 
-                  opacity: 0, 
-                  x: project.direction === 'left' ? -50 : 50 
-                }}
-                animate={inView ? { 
-                  opacity: 1, 
-                  x: 0 
-                } : { 
-                  opacity: 0, 
-                  x: project.direction === 'left' ? -50 : 50 
-                }}
-                transition={{ duration: 0.8, delay: index * 0.2 + 0.3 }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <div className="relative overflow-hidden rounded-2xl">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-80 object-cover object-top transition-transform duration-700 group-hover:scale-110"
-                  />
-                  
-                  {/* Glowing overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#D8ECF8]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {/* Project overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#05060f]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {/* View Project Button (Overlay) */}
-                  <motion.a
-                    href={project.demoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute bottom-8 left-8 px-6 py-3 bg-gradient-to-r from-[#D8ECF8] to-white text-[#05060f] rounded-full font-['Roboto'] font-semibold opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 whitespace-nowrap cursor-pointer flex items-center justify-center decoration-0"
-                    whileHover={{ 
-                      scale: 1.05,
-                      boxShadow: "0 0 20px rgba(216, 236, 248, 0.6)"
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <i className="ri-external-link-line mr-2"></i>
-                    View Project
-                  </motion.a>
-                </div>
-
-                {/* Glowing border */}
-                <div className="absolute -inset-2 rounded-2xl bg-gradient-to-r from-[#D8ECF8]/20 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-lg -z-10"></div>
-              </motion.div>
-
-              {/* Project Content */}
-              <motion.div
-                className={`space-y-6 ${
-                  project.direction === 'right' ? 'lg:col-start-1 lg:row-start-1' : ''
-                }`}
-                initial={{ 
-                  opacity: 0, 
-                  x: project.direction === 'left' ? 50 : -50 
-                }}
-                animate={inView ? { 
-                  opacity: 1, 
-                  x: 0 
-                } : { 
-                  opacity: 0, 
-                  x: project.direction === 'left' ? 50 : -50 
-                }}
-                transition={{ duration: 0.8, delay: index * 0.2 + 0.5 }}
-              >
-                <motion.h3
-                  className="text-4xl font-bold font-['Roboto'] text-white"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.8, delay: index * 0.2 + 0.7 }}
-                >
-                  {project.title}
-                </motion.h3>
-
-                <motion.p
-                  className="text-gray-300 font-['Roboto'] text-lg leading-relaxed"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.8, delay: index * 0.2 + 0.9 }}
-                >
-                  {project.description}
-                </motion.p>
-
-                <motion.div
-                  className="flex flex-wrap gap-3"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.8, delay: index * 0.2 + 1.1 }}
-                >
-                  {project.techStack.map((tech, techIndex) => (
-                    <motion.span
-                      key={tech}
-                      className="px-4 py-2 bg-gradient-to-r from-[#0a0b1a] to-[#05060f] border border-gray-800 rounded-full text-[#D8ECF8] font-['Roboto'] text-sm whitespace-nowrap cursor-pointer hover:border-[#D8ECF8]/50 transition-colors duration-300"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.5, delay: index * 0.2 + techIndex * 0.05 + 1.2 }}
-                      whileHover={{ scale: 1.05 }}
-                    >
-                      {tech}
-                    </motion.span>
-                  ))}
-                </motion.div>
-
-                {/* Action Buttons */}
-                <motion.div
-                  className="flex gap-4 pt-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.8, delay: index * 0.2 + 1.3 }}
-                >
-                  <motion.a
-                    href={project.demoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-8 py-3 bg-gradient-to-r from-[#D8ECF8] to-white text-[#05060f] rounded-full font-['Roboto'] font-semibold whitespace-nowrap cursor-pointer flex items-center justify-center"
-                    whileHover={{ 
-                      scale: 1.05,
-                      boxShadow: "0 0 20px rgba(216, 236, 248, 0.4)"
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <i className="ri-external-link-line mr-2"></i>
-                    Live Demo
-                  </motion.a>
-                  
-                  <motion.a
-                    href={project.repoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-8 py-3 border-2 border-[#D8ECF8] text-[#D8ECF8] rounded-full font-['Roboto'] font-semibold whitespace-nowrap cursor-pointer hover:bg-[#D8ECF8]/10 transition-colors duration-300 flex items-center justify-center"
-                    whileHover={{ 
-                      scale: 1.05,
-                      boxShadow: "0 0 20px rgba(216, 236, 248, 0.2)"
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <i className="ri-github-line mr-2"></i>
-                    Source Code
-                  </motion.a>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+       <div className="px-4">
+         {projects.map((project, i) => {
+           // Calculate dynamic scaling for the stack effect
+           const targetScale = 1 - ( (projects.length - i) * 0.05 );
+           return (
+             <Card 
+               key={project.id} 
+               i={i} 
+               project={project}
+               progress={scrollYProgress}
+               range={[i * 0.25, 1]}
+               targetScale={targetScale}
+             />
+           );
+         })}
+       </div>
+       
+       {/* Spacer at the bottom to ensure smooth exit */}
+       <div className="h-[20vh]" />
     </section>
   );
 }

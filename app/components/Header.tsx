@@ -10,12 +10,9 @@ import { Menu, X } from 'lucide-react';
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  
-  // 2. Add state to handle client-side mounting
   const [mounted, setMounted] = useState(false);
-  const { theme } = useTheme(); // 3. Get the current theme
+  const { theme } = useTheme();
 
-  // 4. Set mounted to true only after the component mounts on the client
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -30,7 +27,6 @@ export default function Header() {
 
   const menuItems = ['About', 'Skills', 'Projects','Certificates'];
 
-  // 5. This check prevents theme-related hydration mismatch errors
   if (!mounted) {
     return null;
   }
@@ -46,14 +42,13 @@ export default function Header() {
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-20"> {/* Added h-20 for consistent height */}
 
-        {/* Logo on the Left */}
+        {/* Logo */}
         <motion.div
           className="flex items-left gap-2 cursor-pointer"
           whileHover={{ scale: 1.05 }}
         >
-          {/* 6. Conditionally render the logo based on the theme */}
           <Image
             src={assets.darklogo}
             alt="logo"
@@ -61,7 +56,7 @@ export default function Header() {
           />
         </motion.div>
 
-        {/* Center Navigation */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8 items-center absolute left-1/2 transform -translate-x-1/2">
           {menuItems.map((item, index) => (
             <motion.a
@@ -79,9 +74,8 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Right Section (Contact button) */}
+        {/* Right Section */}
         <div className="flex items-center gap-4">
-
           <motion.a
             href="#contact"
             className="hidden md:block bg-black/70 text-white px-4 py-2 rounded-md shadow-lg hover:bg-black transition-colors duration-300 dark:bg-white dark:text-black"
@@ -92,9 +86,9 @@ export default function Header() {
         </div>
 
         {/* Mobile Hamburger */}
-        <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
-            {isOpen ? <X  className="color-white" size={28} /> : <Menu size={28} />}
+        <div className="md:hidden z-50"> {/* Added z-50 to ensure it's above the menu */}
+          <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu" className="p-2">
+            {isOpen ? <X className="text-black dark:text-white" size={28} /> : <Menu className="text-black dark:text-white" size={28} />}
           </button>
         </div>
       </div>
@@ -107,13 +101,14 @@ export default function Header() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 right-0 h-full w-2/3 bg-white dark:bg-black shadow-lg z-50 p-6 flex flex-col space-y-6"
+            // Changed w-2/3 to w-full for full screen mobile menu
+            className="fixed top-0 right-0 h-screen w-full bg-white dark:bg-black shadow-lg z-40 p-6 flex flex-col justify-center items-center space-y-8"
           >
             {[...menuItems, 'Contact'].map((item, index) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-black dark:text-white text-lg font-medium"
+                className="text-black dark:text-white text-3xl font-medium"
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
@@ -122,7 +117,6 @@ export default function Header() {
                 {item}
               </motion.a>
             ))}
-           
           </motion.div>
         )}
       </AnimatePresence>
