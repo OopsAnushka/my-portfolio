@@ -14,15 +14,14 @@ export default function Footer() {
   return (
     <div className="py-16 px-6 border-t border-gray-800 relative" ref={ref}>
       <div className="max-w-7xl mx-auto">
-        {/* Bottom Section */}
         <motion.div
           className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8, delay: 1.2 }}
         >
-          {/* Removed font-['Roboto'] */}
-          <div className="text-gray-400 text-sm">
+          {/* 👇 ADDED suppressHydrationWarning HERE */}
+          <div className="text-gray-400 text-sm" suppressHydrationWarning>
             © {currentYear} Anushka Sharma. All rights reserved.
           </div>
           
@@ -43,7 +42,6 @@ export default function Footer() {
           </div>
         </motion.div>
 
-        {/* Floating particles */}
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(3)].map((_, i) => (
             <motion.div

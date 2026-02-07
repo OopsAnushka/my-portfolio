@@ -27,9 +27,7 @@ export default function Header() {
 
   const menuItems = ['About', 'Skills', 'Projects','Certificates'];
 
-  if (!mounted) {
-    return null;
-  }
+ 
 
   return (
     <motion.header

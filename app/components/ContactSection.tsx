@@ -1,8 +1,22 @@
 'use client';
 
+import React, { useState } from 'react'; // <--- Fixed: Added React import
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { useState } from 'react';
+// We import the actual icons because class names (ri-...) won't work without CSS
+import { 
+  RiLinkedinFill, 
+  RiGithubFill, 
+  RiTwitterFill, 
+  RiInstagramFill, 
+  RiDribbbleLine,
+  RiMailLine,
+  RiPhoneLine,
+  RiMapPinLine,
+  RiSendPlaneLine,
+  RiCheckLine,
+  RiLoader4Line
+} from 'react-icons/ri';
 
 export default function ContactSection() {
   const [ref, inView] = useInView({
@@ -23,6 +37,7 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    // Simulate network request
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsSubmitting(false);
     setSubmitted(true);
@@ -39,38 +54,38 @@ export default function ContactSection() {
   const socialLinks = [
     { 
       name: 'LinkedIn', 
-      icon: 'ri-linkedin-fill', 
+      icon: RiLinkedinFill, 
       url: 'https://www.linkedin.com/in/anushka-sharma-644063295', 
       color: '#0077B5' 
     },
     { 
       name: 'GitHub', 
-      icon: 'ri-github-fill', 
+      icon: RiGithubFill, 
       url: 'https://github.com/anushka8418', 
       color: '#333' 
     },
     { 
       name: 'Twitter', 
-      icon: 'ri-twitter-fill', 
+      icon: RiTwitterFill, 
       url: 'https://x.com/Anushka33174522', 
       color: '#1DA1F2' 
     },
     { 
       name: 'Instagram', 
-      icon: 'ri-instagram-fill', 
+      icon: RiInstagramFill, 
       url: 'https://www.instagram.com/anuus_h_ka', 
       color: '#E1306C' 
     },
     { 
       name: 'Dribbble', 
-      icon: 'ri-dribbble-line', 
+      icon: RiDribbbleLine, 
       url: 'https://dribbble.com/anuhska', 
       color: '#EA4C89' 
     },
   ];
 
   return (
-    <section id="contact" className="py-10 md:py-20 px-6 relative" ref={ref}>
+    <section id="contact" className="py-10 md:py-20 px-6 relative bg-black" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="text-center mb-16"
@@ -103,27 +118,32 @@ export default function ContactSection() {
               </h3>
               
               <div className="space-y-6">
+                {/* Email Item */}
                 <motion.div className="flex items-center space-x-4" initial={{ opacity: 0, x: -20 }} animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.8, delay: 0.4 }}>
                   <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-[#D8ECF8]/20 to-white/20 rounded-full">
-                    <i className="ri-mail-line text-[#D8ECF8] text-xl"></i>
+                    <RiMailLine className="text-[#D8ECF8] text-xl" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Email</p>
                     <p className="text-white">anushkasharma8418@gmail.com</p>
                   </div>
                 </motion.div>
+
+                {/* Phone Item */}
                 <motion.div className="flex items-center space-x-4" initial={{ opacity: 0, x: -20 }} animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.8, delay: 0.5 }}>
                   <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-[#D8ECF8]/20 to-white/20 rounded-full">
-                    <i className="ri-phone-line text-[#D8ECF8] text-xl"></i>
+                    <RiPhoneLine className="text-[#D8ECF8] text-xl" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Phone</p>
                     <p className="text-white">+91 7987250763</p>
                   </div>
                 </motion.div>
+
+                {/* Location Item */}
                 <motion.div className="flex items-center space-x-4" initial={{ opacity: 0, x: -20 }} animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.8, delay: 0.6 }}>
                   <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-[#D8ECF8]/20 to-white/20 rounded-full">
-                    <i className="ri-map-pin-line text-[#D8ECF8] text-xl"></i>
+                    <RiMapPinLine className="text-[#D8ECF8] text-xl" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Location</p>
@@ -136,22 +156,25 @@ export default function ContactSection() {
             <div>
               <h4 className="text-xl font-semibold mb-6 text-white">Follow Me</h4>
               <div className="flex space-x-4">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-[#0a0b1a] to-[#05060f] border border-gray-800 rounded-full hover:border-[#D8ECF8]/50 transition-all duration-300 group cursor-pointer"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.8, delay: 0.7 + index * 0.1 }}
-                    whileHover={{ scale: 1.1, boxShadow: `0 0 20px ${social.color}40` }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <i className={`${social.icon} text-xl text-gray-400 group-hover:text-[#D8ECF8] transition-colors duration-300`}></i>
-                  </motion.a>
-                ))}
+                {socialLinks.map((social, index) => {
+                  const Icon = social.icon;
+                  return (
+                    <motion.a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-[#0a0b1a] to-[#05060f] border border-gray-800 rounded-full hover:border-[#D8ECF8]/50 transition-all duration-300 group cursor-pointer"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                      transition={{ duration: 0.8, delay: 0.7 + index * 0.1 }}
+                      whileHover={{ scale: 1.1, boxShadow: `0 0 20px ${social.color}40` }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Icon className="text-xl text-gray-400 group-hover:text-[#D8ECF8] transition-colors duration-300" />
+                    </motion.a>
+                  );
+                })}
               </div>
             </div>
           </motion.div>
@@ -188,8 +211,8 @@ export default function ContactSection() {
                     <div className="text-right text-xs text-gray-500 mt-1">{formData.message.length}/500</div>
                   </motion.div>
                   <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} transition={{ duration: 0.8, delay: 1 }}>
-                    <motion.button type="submit" disabled={isSubmitting || submitted} className={`w-full py-4 rounded-lg font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 ${submitted ? 'bg-green-600 text-white' : isSubmitting ? 'bg-gray-600 text-gray-300 cursor-not-allowed' : 'bg-gradient-to-r from-[#D8ECF8] to-white text-[#05060f] hover:shadow-lg hover:shadow-[#D8ECF8]/20'}`} whileHover={!isSubmitting && !submitted ? { scale: 1.02, boxShadow: "0 0 30px rgba(216, 236, 248, 0.4)" } : {}} whileTap={!isSubmitting && !submitted ? { scale: 0.98 } : {}} animate={submitted ? { y: [0, -5, 0] } : {}} transition={{ duration: 0.3 }}>
-                      {submitted ? (<><i className="ri-check-line mr-2"></i>Message Sent Successfully!</>) : isSubmitting ? (<><i className="ri-loader-4-line mr-2 animate-spin"></i>Sending Message...</>) : (<><i className="ri-send-plane-line mr-2"></i>Send Message</>)}
+                    <motion.button type="submit" disabled={isSubmitting || submitted} className={`w-full py-4 rounded-lg font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 flex items-center justify-center ${submitted ? 'bg-green-600 text-white' : isSubmitting ? 'bg-gray-600 text-gray-300 cursor-not-allowed' : 'bg-gradient-to-r from-[#D8ECF8] to-white text-[#05060f] hover:shadow-lg hover:shadow-[#D8ECF8]/20'}`} whileHover={!isSubmitting && !submitted ? { scale: 1.02, boxShadow: "0 0 30px rgba(216, 236, 248, 0.4)" } : {}} whileTap={!isSubmitting && !submitted ? { scale: 0.98 } : {}} animate={submitted ? { y: [0, -5, 0] } : {}} transition={{ duration: 0.3 }}>
+                      {submitted ? (<><RiCheckLine className="mr-2" />Message Sent Successfully!</>) : isSubmitting ? (<><RiLoader4Line className="mr-2 animate-spin" />Sending Message...</>) : (<><RiSendPlaneLine className="mr-2" />Send Message</>)}
                     </motion.button>
                   </motion.div>
                 </div>

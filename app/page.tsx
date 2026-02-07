@@ -1,7 +1,5 @@
-
 'use client';
 
-import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import About from './components/Aboutdark';
@@ -12,28 +10,18 @@ import Footer from './components/Footer';
 import SkillsSection from './components/SkillsSection';
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <div className="bg-black min-h-screen overflow-x-hidden relative">
       <Header />
       <HeroSection />
       <div className="relative z-10 bg-black">
-      <About />
-      <SkillsSection/>
-      <ProjectsSection />
-      <CertificationSection />
-      <ContactSection />
-      <Footer />
-    </div>
+        <About />
+        <SkillsSection/>
+        <ProjectsSection />
+        <CertificationSection />
+        <ContactSection />
+        <Footer />
+      </div>
     </div>
   );
 }

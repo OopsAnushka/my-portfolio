@@ -5,7 +5,7 @@ import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-mo
 import Image from 'next/image';
 import { Volume2, VolumeX } from 'lucide-react'; 
 import styles from './HeroSection.module.css';
-import image from '../assets/portrait-bright.png';
+import image from '../assets/portrait-bright.png'; // Ensure this path matches your folder structure
 
 const HeroSection = () => {
   const mouseX = useMotionValue(0);
@@ -21,14 +21,15 @@ const HeroSection = () => {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        audioRef.current.play().catch((err) => console.log("Play blocked:", err));
       }
       setIsPlaying(!isPlaying);
-      setShowPrompt(false); // Hide prompt immediately on user interaction
+      setShowPrompt(false); 
     }
   };
 
   useEffect(() => {
+    // Check if audio exists before trying to play
     if (audioRef.current) {
       audioRef.current.volume = 0.4;
       
@@ -40,12 +41,10 @@ const HeroSection = () => {
           setIsPlaying(false);
           setShowPrompt(true);
 
-          // NEW: Auto-hide the popup after 60 seconds (60000 ms)
           const timer = setTimeout(() => {
             setShowPrompt(false);
           }, 60000);
 
-          // Cleanup timer if component unmounts before 60s
           return () => clearTimeout(timer);
         });
       }
@@ -60,10 +59,12 @@ const HeroSection = () => {
   );
 
   useEffect(() => {
-    const handleMouseMove = (e: { clientX: number; clientY: number; }) => { 
+    // Window event listener must be inside useEffect
+    const handleMouseMove = (e: MouseEvent) => { 
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
     };
+    
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
@@ -109,7 +110,6 @@ const HeroSection = () => {
        {/* --- Volume Control Wrapper --- */}
        <div className="absolute bottom-10 right-6 z-50 flex flex-col items-end gap-2">
          
-         {/* Popup Tooltip */}
          <AnimatePresence>
            {showPrompt && (
              <motion.div
@@ -119,7 +119,6 @@ const HeroSection = () => {
                className="bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs px-3 py-2 rounded-lg relative shadow-lg"
              >
                <span className="whitespace-nowrap">Tap to play sound 🎵</span>
-               {/* Tiny arrow pointing down-right */}
                <div className="absolute -bottom-1 right-3 w-2 h-2 bg-white/10 border-b border-r border-white/20 rotate-45 transform"></div>
              </motion.div>
            )}
