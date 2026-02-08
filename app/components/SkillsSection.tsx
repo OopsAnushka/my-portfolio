@@ -114,7 +114,7 @@ export default function SkillsSection() {
     <section id="skills" className="py-12 md:py-24 px-4 md:px-6 relative bg-black overflow-hidden">
       
       {/* Ambient Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-500/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-black-100/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-6xl mx-auto z-10 relative">
         <motion.div
@@ -123,7 +123,7 @@ export default function SkillsSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-10 md:mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white uppercase tracking-[0.2em]">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
             Technical Arsenal
           </h2>
           <p className="text-gray-400 max-w-lg mx-auto text-sm md:text-base">
@@ -133,8 +133,16 @@ export default function SkillsSection() {
         
         {/* GRID UPDATE: grid-cols-3 on ALL screens, tight gap on mobile */}
         <div className="grid grid-cols-3 gap-3 md:gap-6">
-          {skills.map((skill) => (
-            <div key={skill.id} className={`${skill.size} h-full`}>
+          {skills.map((skill, index) => (
+            <motion.div 
+              key={skill.id} 
+              className={`${skill.size} h-full`}
+              // ADDED: Entry animation for cards
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }} // <--- CHANGED: Cards animate every time
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+            >
               <SpotlightCard 
                 layoutId={`card-${skill.id}`} 
                 onClick={() => setSelectedId(skill.id)}
@@ -171,7 +179,7 @@ export default function SkillsSection() {
                   </div>
                 </div>
               </SpotlightCard>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,27 +1,26 @@
 'use client';
 
-import React, { useState } from 'react'; // <--- Fixed: Added React import
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-// We import the actual icons because class names (ri-...) won't work without CSS
 import { 
-  RiLinkedinFill, 
-  RiGithubFill, 
-  RiTwitterFill, 
-  RiInstagramFill, 
-  RiDribbbleLine,
-  RiMailLine,
-  RiPhoneLine,
-  RiMapPinLine,
-  RiSendPlaneLine,
-  RiCheckLine,
-  RiLoader4Line
-} from 'react-icons/ri';
+  Linkedin, 
+  Twitter, 
+  Instagram, 
+  Dribbble, 
+  Mail, 
+  Phone, 
+  MapPin, 
+  Send, 
+  Check, 
+  Loader2,
+  Github
+} from 'lucide-react';
 
 export default function ContactSection() {
   const [ref, inView] = useInView({
     threshold: 0.2,
-    triggerOnce: true,
+    triggerOnce: false, // Animation replays every time you visit
   });
 
   const [formData, setFormData] = useState({
@@ -33,52 +32,77 @@ export default function ContactSection() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    // Simulate network request
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 3000);
-  };
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      // 1. Send data to your Backend API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // 2. Success!
+        setSubmitted(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        
+        // Reset success message after 5 seconds
+        setTimeout(() => setSubmitted(false), 5000);
+      } else {
+        // 3. Server Error
+        setError(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      // 4. Network Error
+      setError('Failed to connect to the server.');
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const socialLinks = [
     { 
       name: 'LinkedIn', 
-      icon: RiLinkedinFill, 
+      icon: Linkedin, 
       url: 'https://www.linkedin.com/in/anushka-sharma-644063295', 
       color: '#0077B5' 
     },
     { 
       name: 'GitHub', 
-      icon: RiGithubFill, 
+      icon: Github, 
       url: 'https://github.com/anushka8418', 
-      color: '#333' 
+      color: '#ffffff' 
     },
     { 
       name: 'Twitter', 
-      icon: RiTwitterFill, 
+      icon: Twitter, 
       url: 'https://x.com/Anushka33174522', 
       color: '#1DA1F2' 
     },
     { 
       name: 'Instagram', 
-      icon: RiInstagramFill, 
+      icon: Instagram, 
       url: 'https://www.instagram.com/anuus_h_ka', 
       color: '#E1306C' 
     },
     { 
       name: 'Dribbble', 
-      icon: RiDribbbleLine, 
+      icon: Dribbble, 
       url: 'https://dribbble.com/anuhska', 
       color: '#EA4C89' 
     },
@@ -106,6 +130,8 @@ export default function ContactSection() {
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-16">
+          
+          {/* LEFT SIDE: Contact Info */}
           <motion.div
             className="space-y-8"
             initial={{ opacity: 0, x: -50 }}
@@ -118,38 +144,35 @@ export default function ContactSection() {
               </h3>
               
               <div className="space-y-6">
-                {/* Email Item */}
-                <motion.div className="flex items-center space-x-4" initial={{ opacity: 0, x: -20 }} animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.8, delay: 0.4 }}>
+                <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-[#D8ECF8]/20 to-white/20 rounded-full">
-                    <RiMailLine className="text-[#D8ECF8] text-xl" />
+                    <Mail className="text-[#D8ECF8] w-5 h-5" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Email</p>
                     <p className="text-white">anushkasharma8418@gmail.com</p>
                   </div>
-                </motion.div>
+                </div>
 
-                {/* Phone Item */}
-                <motion.div className="flex items-center space-x-4" initial={{ opacity: 0, x: -20 }} animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.8, delay: 0.5 }}>
+                <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-[#D8ECF8]/20 to-white/20 rounded-full">
-                    <RiPhoneLine className="text-[#D8ECF8] text-xl" />
+                    <Phone className="text-[#D8ECF8] w-5 h-5" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Phone</p>
                     <p className="text-white">+91 7987250763</p>
                   </div>
-                </motion.div>
+                </div>
 
-                {/* Location Item */}
-                <motion.div className="flex items-center space-x-4" initial={{ opacity: 0, x: -20 }} animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.8, delay: 0.6 }}>
+                <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-[#D8ECF8]/20 to-white/20 rounded-full">
-                    <RiMapPinLine className="text-[#D8ECF8] text-xl" />
+                    <MapPin className="text-[#D8ECF8] w-5 h-5" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Location</p>
                     <p className="text-white">Indore (M.P.), INDIA</p>
                   </div>
-                </motion.div>
+                </div>
               </div>
             </div>
 
@@ -165,13 +188,10 @@ export default function ContactSection() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-[#0a0b1a] to-[#05060f] border border-gray-800 rounded-full hover:border-[#D8ECF8]/50 transition-all duration-300 group cursor-pointer"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                      transition={{ duration: 0.8, delay: 0.7 + index * 0.1 }}
                       whileHover={{ scale: 1.1, boxShadow: `0 0 20px ${social.color}40` }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <Icon className="text-xl text-gray-400 group-hover:text-[#D8ECF8] transition-colors duration-300" />
+                      <Icon className="w-5 h-5 text-gray-400 group-hover:text-[#D8ECF8] transition-colors duration-300" />
                     </motion.a>
                   );
                 })}
@@ -179,6 +199,7 @@ export default function ContactSection() {
             </div>
           </motion.div>
 
+          {/* RIGHT SIDE: The Form */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
@@ -186,35 +207,99 @@ export default function ContactSection() {
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="relative group">
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-[#0a0b1a] to-[#05060f] rounded-2xl opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                {/* Glassmorphism Background */}
+                <div
+                  className="absolute inset-0 bg-gradient-to-r from-[#0a0b1a] to-[#05060f] rounded-2xl opacity-90 transition-opacity duration-300"
                   style={{ backdropFilter: 'blur(10px)' }}
                 />
+                
                 <div className="relative bg-gradient-to-r from-[#0a0b1a]/50 to-[#05060f]/50 backdrop-blur-md rounded-2xl p-8 border border-gray-800 hover:border-[#D8ECF8]/30 transition-all duration-300">
+                  
+                  {/* Name & Email */}
                   <div className="grid md:grid-cols-2 gap-6 mb-6">
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} transition={{ duration: 0.8, delay: 0.6 }}>
+                    <div>
                       <label className="block text-sm text-gray-300 mb-2">Full Name</label>
-                      <input type="text" name="name" value={formData.name} onChange={handleChange} required className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-sm" placeholder="Your name" />
-                    </motion.div>
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} transition={{ duration: 0.8, delay: 0.7 }}>
+                      <input 
+                        type="text" 
+                        name="name" 
+                        value={formData.name} 
+                        onChange={handleChange} 
+                        required 
+                        className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-sm" 
+                        placeholder="Your name" 
+                      />
+                    </div>
+                    <div>
                       <label className="block text-sm text-gray-300 mb-2">Email Address</label>
-                      <input type="email" name="email" value={formData.email} onChange={handleChange} required className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-sm" placeholder="your@email.com" />
-                    </motion.div>
+                      <input 
+                        type="email" 
+                        name="email" 
+                        value={formData.email} 
+                        onChange={handleChange} 
+                        required 
+                        className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-sm" 
+                        placeholder="your@email.com" 
+                      />
+                    </div>
                   </div>
-                  <motion.div className="mb-6" initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} transition={{ duration: 0.8, delay: 0.8 }}>
+
+                  {/* Subject */}
+                  <div className="mb-6">
                     <label className="block text-sm text-gray-300 mb-2">Subject</label>
-                    <input type="text" name="subject" value={formData.subject} onChange={handleChange} required className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-sm" placeholder="Project inquiry" />
-                  </motion.div>
-                  <motion.div className="mb-6" initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} transition={{ duration: 0.8, delay: 0.9 }}>
+                    <input 
+                      type="text" 
+                      name="subject" 
+                      value={formData.subject} 
+                      onChange={handleChange} 
+                      required 
+                      className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-sm" 
+                      placeholder="Project inquiry" 
+                    />
+                  </div>
+
+                  {/* Message */}
+                  <div className="mb-6">
                     <label className="block text-sm text-gray-300 mb-2">Message</label>
-                    <textarea name="message" value={formData.message} onChange={handleChange} required maxLength={500} rows={6} className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 resize-none text-sm" placeholder="Tell me about your project..." />
-                    <div className="text-right text-xs text-gray-500 mt-1">{formData.message.length}/500</div>
-                  </motion.div>
-                  <motion.div initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }} transition={{ duration: 0.8, delay: 1 }}>
-                    <motion.button type="submit" disabled={isSubmitting || submitted} className={`w-full py-4 rounded-lg font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 flex items-center justify-center ${submitted ? 'bg-green-600 text-white' : isSubmitting ? 'bg-gray-600 text-gray-300 cursor-not-allowed' : 'bg-gradient-to-r from-[#D8ECF8] to-white text-[#05060f] hover:shadow-lg hover:shadow-[#D8ECF8]/20'}`} whileHover={!isSubmitting && !submitted ? { scale: 1.02, boxShadow: "0 0 30px rgba(216, 236, 248, 0.4)" } : {}} whileTap={!isSubmitting && !submitted ? { scale: 0.98 } : {}} animate={submitted ? { y: [0, -5, 0] } : {}} transition={{ duration: 0.3 }}>
-                      {submitted ? (<><RiCheckLine className="mr-2" />Message Sent Successfully!</>) : isSubmitting ? (<><RiLoader4Line className="mr-2 animate-spin" />Sending Message...</>) : (<><RiSendPlaneLine className="mr-2" />Send Message</>)}
-                    </motion.button>
-                  </motion.div>
+                    <textarea 
+                      name="message" 
+                      value={formData.message} 
+                      onChange={handleChange} 
+                      required 
+                      maxLength={500} 
+                      rows={6} 
+                      className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 resize-none text-sm" 
+                      placeholder="Tell me about your project..." 
+                    />
+                    <div className="text-right text-xs text-gray-500 mt-1">
+                      {formData.message.length}/500
+                    </div>
+                  </div>
+
+                  {/* Error Message */}
+                  {error && (
+                    <p className="text-red-400 text-sm mb-4 text-center">{error}</p>
+                  )}
+
+                  {/* Submit Button */}
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting || submitted} 
+                    className={`
+                      w-full py-4 rounded-lg font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 flex items-center justify-center
+                      ${submitted ? 'bg-green-600 text-white' : 
+                        isSubmitting ? 'bg-gray-600 text-gray-300 cursor-not-allowed' : 
+                        'bg-gradient-to-r from-[#D8ECF8] to-white text-[#05060f] hover:shadow-lg hover:shadow-[#D8ECF8]/20'}
+                    `}
+                  >
+                    {submitted ? (
+                      <><Check className="mr-2 w-5 h-5" />Message Sent Successfully!</>
+                    ) : isSubmitting ? (
+                      <><Loader2 className="mr-2 w-5 h-5 animate-spin" />Sending...</>
+                    ) : (
+                      <><Send className="mr-2 w-5 h-5" />Send Message</>
+                    )}
+                  </button>
+                  
                 </div>
               </div>
             </form>

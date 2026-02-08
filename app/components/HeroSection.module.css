@@ -1,7 +1,10 @@
 .heroContainer {
   width: 100vw;
   height: 100vh;
-  position: relative;
+  position: fixed;  /* CHANGED: Sticks the hero in place */
+  top: 0;
+  left: 0;
+  z-index: 0;       /* CHANGED: Sends it behind other content */
   overflow: hidden;
   background-color: #111;
   cursor: none;
