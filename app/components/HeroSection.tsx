@@ -126,6 +126,7 @@ const HeroSection = () => {
 
          <button 
             onClick={togglePlay}
+            suppressHydrationWarning
             className="p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 transition-all duration-300 group shadow-lg"
             aria-label="Toggle background music"
           >

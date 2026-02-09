@@ -2,8 +2,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
-  images: { unoptimized: true },
+    images: { unoptimized: true },
   typescript: {
     // Add this back temporarily if you just want it to build
     ignoreBuildErrors: true, 

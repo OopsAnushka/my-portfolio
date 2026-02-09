@@ -220,24 +220,26 @@ export default function ContactSection() {
                     <div>
                       <label className="block text-sm text-gray-300 mb-2">Full Name</label>
                       <input 
+                      suppressHydrationWarning
                         type="text" 
                         name="name" 
                         value={formData.name} 
                         onChange={handleChange} 
                         required 
-                        className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-sm" 
+                        className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-lg" 
                         placeholder="Your name" 
                       />
                     </div>
                     <div>
                       <label className="block text-sm text-gray-300 mb-2">Email Address</label>
                       <input 
+                      suppressHydrationWarning
                         type="email" 
                         name="email" 
                         value={formData.email} 
                         onChange={handleChange} 
                         required 
-                        className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-sm" 
+                        className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-lg" 
                         placeholder="your@email.com" 
                       />
                     </div>
@@ -247,12 +249,13 @@ export default function ContactSection() {
                   <div className="mb-6">
                     <label className="block text-sm text-gray-300 mb-2">Subject</label>
                     <input 
+                    suppressHydrationWarning
                       type="text" 
                       name="subject" 
                       value={formData.subject} 
                       onChange={handleChange} 
                       required 
-                      className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-sm" 
+                      className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 text-lg" 
                       placeholder="Project inquiry" 
                     />
                   </div>
@@ -261,6 +264,7 @@ export default function ContactSection() {
                   <div className="mb-6">
                     <label className="block text-sm text-gray-300 mb-2">Message</label>
                     <textarea 
+                    suppressHydrationWarning
                       name="message" 
                       value={formData.message} 
                       onChange={handleChange} 
@@ -270,7 +274,7 @@ export default function ContactSection() {
                       className="w-full px-4 py-3 bg-[#05060f]/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#D8ECF8] transition-colors duration-300 resize-none text-sm" 
                       placeholder="Tell me about your project..." 
                     />
-                    <div className="text-right text-xs text-gray-500 mt-1">
+                    <div className="text-right text-lg text-gray-500 mt-1">
                       {formData.message.length}/500
                     </div>
                   </div>
@@ -282,6 +286,7 @@ export default function ContactSection() {
 
                   {/* Submit Button */}
                   <button 
+                  suppressHydrationWarning
                     type="submit" 
                     disabled={isSubmitting || submitted} 
                     className={`
