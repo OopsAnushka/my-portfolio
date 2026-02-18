@@ -27,8 +27,6 @@ export default function Header() {
 
   const menuItems = ['About', 'Skills', 'Projects','Certificates'];
 
- 
-
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -40,12 +38,15 @@ export default function Header() {
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-20"> {/* Added h-20 for consistent height */}
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-20"> 
 
         {/* Logo */}
         <motion.div
           className="flex items-left gap-2 cursor-pointer"
           whileHover={{ scale: 1.05 }}
+          // Note: If you want the logo to navigate, wrap it in a Link or add an onClick handler.
+          // If it's just a div, it won't trigger the global sound. 
+          // If you want sound here, add: onClick={() => new Audio('/click.mp3').play()}
         >
           <Image
             src={assets.darklogo}
@@ -65,6 +66,7 @@ export default function Header() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ scale: 1.05 }}
+              // REMOVED manual onClick={playClickSound} here to prevent double sound
             >
               {item}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black dark:bg-white group-hover:w-full transition-all duration-300"></span>
@@ -78,14 +80,20 @@ export default function Header() {
             href="#contact"
             className="hidden md:block bg-black/70 text-white px-4 py-2 rounded-md shadow-lg hover:bg-black transition-colors duration-300 dark:bg-white dark:text-black"
             whileHover={{ scale: 1.05 }}
+             // REMOVED manual onClick here
           >
             Contact
           </motion.a>
         </div>
 
         {/* Mobile Hamburger */}
-        <div className="md:hidden z-50"> {/* Added z-50 to ensure it's above the menu */}
-          <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu" className="p-2">
+        <div className="md:hidden z-50"> 
+          <button 
+            onClick={() => setIsOpen(!isOpen)} 
+            aria-label="Toggle menu" 
+            className="p-2"
+            // REMOVED manual onClick here
+          >
             {isOpen ? <X className="text-black dark:text-white" size={28} /> : <Menu className="text-black dark:text-white" size={28} />}
           </button>
         </div>
@@ -99,7 +107,6 @@ export default function Header() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ duration: 0.3 }}
-            // Changed w-2/3 to w-full for full screen mobile menu
             className="fixed top-0 right-0 h-screen w-full bg-white dark:bg-black shadow-lg z-40 p-6 flex flex-col justify-center items-center space-y-8"
           >
             {[...menuItems, 'Contact'].map((item, index) => (
@@ -111,6 +118,7 @@ export default function Header() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
                 onClick={() => setIsOpen(false)}
+                 // REMOVED manual onClick here
               >
                 {item}
               </motion.a>

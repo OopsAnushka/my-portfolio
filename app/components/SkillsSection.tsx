@@ -1,17 +1,20 @@
 'use client';
 
-import { useState, useRef, MouseEvent } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, MouseEvent } from 'react';
+import { motion, AnimatePresence, useMotionValue, useMotionTemplate } from 'framer-motion';
 import { Layout, Server, Cloud, Code, Terminal, Globe, X } from 'lucide-react';
+import { CanvasRevealEffect } from '@/app/components/ui/canvas-reveal-effect';
+import { cn } from "@/lib/utils";
 
+// --- Data ---
 const skills = [
   { 
     id: 1, 
     name: 'Frontend', 
     tech: ['React', 'Next.js', 'Framer Motion', 'Tailwind CSS', 'TypeScript', 'Three.js'], 
     icon: <Layout className="w-6 h-6 md:w-8 md:h-8" />, 
-    color: '#AA336A', 
-    // Changed: Removed 'md:' prefix to enforce col-span-2 on mobile too
+    // We keep these for the expanded view accents, but the grid will be uniform
+    color: '#3B82F6', 
     size: 'col-span-2' 
   },
   { 
@@ -52,56 +55,72 @@ const skills = [
     tech: ['HTML5', 'CSS3', 'Responsive Design', 'SEO', 'Accessibility'], 
     icon: <Globe className="w-6 h-6 md:w-8 md:h-8" />, 
     color: '#007AFF', 
-    // Changed: Removed 'md:' prefix
     size: 'col-span-2' 
   },
 ];
 
-// --- Spotlight Card Component ---
-const SpotlightCard = ({ 
+// --- Custom "Motion" CardSpotlight Component ---
+// This combines the CanvasReveal logic with Framer Motion layoutId for the expand animation
+const SkillCard = ({ 
   children, 
   className = "", 
-  spotlightColor = "rgba(255, 255, 255, 0.25)",
   onClick,
   layoutId
 }: { 
   children: React.ReactNode; 
   className?: string;
-  spotlightColor?: string;
   onClick?: () => void;
   layoutId?: string;
 }) => {
-  const divRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [opacity, setOpacity] = useState(0);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const [isHovering, setIsHovering] = useState(false);
 
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!divRef.current) return;
-    const rect = divRef.current.getBoundingClientRect();
-    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  };
-
-  const handleMouseEnter = () => setOpacity(1);
-  const handleMouseLeave = () => setOpacity(0);
+  function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
 
   return (
     <motion.div
       layoutId={layoutId}
-      ref={divRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      className={`relative overflow-hidden rounded-2xl md:rounded-[2rem] bg-zinc-900/50 border border-zinc-800 ${className}`}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      className={cn(
+        "group/spotlight relative border border-neutral-800 bg-black dark:border-neutral-800 overflow-hidden rounded-2xl md:rounded-[2rem] cursor-pointer",
+        className
+      )}
     >
-      <div
-        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300"
+      {/* The Reveal Effect Layer */}
+      <motion.div
+        className="pointer-events-none absolute z-0 -inset-px opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
         style={{
-          opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 40%)`,
+          backgroundColor: "transparent",
+          maskImage: useMotionTemplate`
+            radial-gradient(
+              350px circle at ${mouseX}px ${mouseY}px,
+              white,
+              transparent 80%
+            )
+          `,
         }}
-      />
-      <div className="relative h-full">{children}</div>
+      >
+        <CanvasRevealEffect
+          animationSpeed={3}
+          containerClassName="bg-transparent absolute inset-0 pointer-events-none"
+          colors={[
+            [59, 130, 246], // Blue
+            [139, 92, 246], // Purple
+          ]}
+          dotSize={2.6}
+        />
+      </motion.div>
+
+      {/* Content */}
+      <div className="relative z-10 h-full">{children}</div>
     </motion.div>
   );
 };
@@ -114,7 +133,7 @@ export default function SkillsSection() {
     <section id="skills" className="py-12 md:py-24 px-4 md:px-6 relative bg-black overflow-hidden">
       
       {/* Ambient Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-black-100/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-black blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-6xl mx-auto z-10 relative">
         <motion.div
@@ -131,45 +150,40 @@ export default function SkillsSection() {
           </p>
         </motion.div>
         
-        {/* GRID UPDATE: grid-cols-3 on ALL screens, tight gap on mobile */}
+        {/* Bento Grid */}
         <div className="grid grid-cols-3 gap-3 md:gap-6">
           {skills.map((skill, index) => (
             <motion.div 
               key={skill.id} 
               className={`${skill.size} h-full`}
-              // ADDED: Entry animation for cards
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }} // <--- CHANGED: Cards animate every time
+              viewport={{ once: false }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
-              <SpotlightCard 
+              <SkillCard 
                 layoutId={`card-${skill.id}`} 
                 onClick={() => setSelectedId(skill.id)}
-                className="h-full cursor-pointer group" 
-                spotlightColor={skill.color}
+                className="h-full"
               >
-                {/* Responsive Padding: p-4 on mobile, p-8 on desktop */}
                 <div className="p-4 md:p-8 h-full flex flex-col justify-between relative z-10">
                   <div className="flex justify-between items-start">
                     <motion.div 
                       layoutId={`icon-${skill.id}`} 
-                      className="p-2 md:p-3 bg-zinc-800/80 rounded-xl text-blue-500 backdrop-blur-sm border border-white/10"
+                      className="p-2 md:p-3 bg-zinc-900/50 rounded-xl text-white backdrop-blur-sm border border-white/10"
                     >
                       {skill.icon}
                     </motion.div>
                     
-                    {/* Hide arrow on small mobile screens to save space, or make it tiny */}
-                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                    <div className="w-6 h-6 md:w-8 md:h-8 rounded-full border border-white/20 flex items-center justify-center group-hover/spotlight:bg-white/10 transition-colors">
                        <span className="text-white/50 text-[10px] md:text-xs">↗</span>
                     </div>
                   </div>
 
                   <div className="mt-4 md:mt-8">
-                    {/* Responsive Text Sizes */}
                     <motion.h3 
                       layoutId={`title-${skill.id}`} 
-                      className="text-sm md:text-2xl font-bold text-white mb-1 md:mb-2 truncate"
+                      className="text-sm md:text-2xl font-bold text-blue-500 mb-1 md:mb-2 truncate"
                     >
                       {skill.name}
                     </motion.h3>
@@ -178,12 +192,13 @@ export default function SkillsSection() {
                     </p>
                   </div>
                 </div>
-              </SpotlightCard>
+              </SkillCard>
             </motion.div>
           ))}
         </div>
       </div>
 
+      {/* Expanded Modal */}
       <AnimatePresence>
         {selectedId && selectedSkill && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -203,9 +218,9 @@ export default function SkillsSection() {
               <motion.div
                 key="expanded-card"
                 layoutId={`card-${selectedSkill.id}`}
-                className="w-full bg-[#0a0a0a] border border-white/10 p-6 md:p-12 rounded-[2rem] overflow-hidden pointer-events-auto"
+                className="w-full bg-neutral-900 border border-white/10 p-6 md:p-12 rounded-[2rem] overflow-hidden pointer-events-auto shadow-2xl"
               >
-                {/* Decorative Glow */}
+                {/* Decorative Glow for Expanded State */}
                 <div 
                   className="absolute -top-32 -right-32 w-64 h-64 blur-[100px] rounded-full pointer-events-none opacity-40"
                   style={{ backgroundColor: selectedSkill.color }}
