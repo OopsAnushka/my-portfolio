@@ -2,93 +2,63 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, ExternalLink, X, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Github, ExternalLink, X, Maximize2 } from "lucide-react";
 
 // Data Structure
 const projects = [
   {
-    title: "Ethereal UI",
-    desc: "A futuristic user interface design focusing on glassmorphism and neon aesthetics.",
-    tags: ["React", "Tailwind", "Framer"],
-    image: "https://images.unsplash.com/photo-1743434838736-257a5ce48e8a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMDNkJTIwY29sb3JmdWwlMjBhcnR8ZW58MXx8fHwxNzcxNDI4OTMwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    repo: "https://github.com/OopsAnushka",
-    demo: "https://github.com/OopsAnushka",
+    title: "AeroCare",
+    desc: "A full-stack TypeScript application for aviation care management with a modern UI, deployed on Vercel.",
+    tags: ["TypeScript", "Next.js", "Vercel"],
+    image: "https://images.unsplash.com/photo-1436491865332-7a61a109db05?q=80&w=1080&auto=format&fit=crop",
+    repo: "https://github.com/OopsAnushka/AeroCare",
+    demo: "https://aero-care-gamma.vercel.app",
   },
   {
-    title: "Fluid Dynamics",
-    desc: "Interactive fluid simulation using WebGL and custom shaders for high-performance visuals.",
-    tags: ["WebGL", "Three.js", "GLSL"],
-    image: "https://images.unsplash.com/photo-1763259373848-9d56552e2146?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmbHVpZCUyMGNvbG9yZnVsJTIwYWJzdHJhY3QlMjBzaGFwZXN8ZW58MXx8fHwxNzcxNDI4OTMwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    repo: "https://github.com/OopsAnushka",
-    demo: "https://github.com/OopsAnushka",
+    title: "StaySpace",
+    desc: "A hotel booking platform with search, filtering, and reservation management built with JavaScript.",
+    tags: ["JavaScript", "React", "MongoDB"],
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1080&auto=format&fit=crop",
+    repo: "https://github.com/OopsAnushka/hotel-booking",
+    demo: "https://stay-space-woad.vercel.app/",
   },
   {
-    title: "Surreal Portraits",
-    desc: "AI-generated surrealist portraits integrated into a generative art gallery.",
-    tags: ["AI", "Generative Art", "Python"],
-    // FIXED: Replaced with a reliable surreal portrait URL
-    image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1080&auto=format&fit=crop",
-    repo: "https://github.com/OopsAnushka",
-    demo: "https://github.com/OopsAnushka",
+    title: "J&K Career Advisor",
+    desc: "SIH 2025 project — A personalized career and education advisory platform for J&K students.",
+    tags: ["SIH 2025", "Full-Stack", "AI"],
+    image: "https://images.unsplash.com/photo-1523050854058-8df90110c476?q=80&w=1080&auto=format&fit=crop",
+    repo: "https://github.com/OopsAnushka/jk-career-advisor",
+    demo: "https://github.com/OopsAnushka/jk-career-advisor",
   },
   {
-    title: "Cyberpunk City",
-    desc: "A procedurally generated city environment optimized for low-latency browser rendering.",
-    tags: ["Next.js", "Canvas", "Algorithms"],
-    image: "https://images.unsplash.com/photo-1764336312138-14a5368a6cd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwZGlnaXRhbCUyMGFydCUyMHBvcnRyYWl0fGVufDF8fHx8MTc3MTQyODkzMXww&ixlib=rb-4.1.0&q=80&w=1080",
-    repo: "https://github.com/OopsAnushka",
-    demo: "https://github.com/OopsAnushka",
+    title: "Game of Life",
+    desc: "Conway's Game of Life — a new variant with interactive cellular automaton simulation.",
+    tags: ["JavaScript", "Canvas", "Algorithms"],
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1080&auto=format&fit=crop",
+    repo: "https://github.com/OopsAnushka/game_of_life",
+    demo: "https://github.com/OopsAnushka/game_of_life",
   },
   {
-    title: "Minimal Arch",
-    desc: "Clean, minimalist architectural visualization platform for modern homes.",
-    tags: ["Vue", "Nuxt", "SCSS"],
-    image: "https://images.unsplash.com/photo-1610497254766-c6a51afa9b64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwYXJjaGl0ZWN0dXJhbCUyMGFic3RyYWN0fGVufDF8fHx8MTc3MTQyODkzMHww&ixlib=rb-4.1.0&q=80&w=1080",
-    repo: "https://github.com/OopsAnushka",
-    demo: "https://github.com/OopsAnushka",
+    title: "Portfolio v1",
+    desc: "First iteration of my personal portfolio website with modern animations and interactive design.",
+    tags: ["TypeScript", "Next.js", "Framer Motion"],
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1080&auto=format&fit=crop",
+    repo: "https://github.com/OopsAnushka/portfolio-anushka",
+    demo: "https://github.com/OopsAnushka/portfolio-anushka",
   },
   {
-    title: "Abstract 3D",
-    desc: "Experimental 3D shapes and textures exploring depth and lighting in the browser.",
-    tags: ["R3F", "Typescript", "Blender"],
-    // FIXED: Replaced with a reliable abstract 3D URL
+    title: "This Portfolio",
+    desc: "My current portfolio — cinematic, interactive website with 3D effects and contact form backend.",
+    tags: ["Next.js", "Three.js", "MongoDB"],
     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1080&auto=format&fit=crop",
-    repo: "https://github.com/OopsAnushka",
-    demo: "https://github.com/OopsAnushka",
-  },
-  {
-    title: "Neon Nights",
-    desc: "Dark mode dashboard with vibrant neon accents and real-time data visualization.",
-    tags: ["D3.js", "React", "Node"],
-    image: "https://images.unsplash.com/photo-1605727328079-f3115619d3a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuZW9uJTIwY3liZXJwdW5rJTIwYWJzdHJhY3R8ZW58MXx8fHwxNzcxNDI4OTMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    repo: "https://github.com/OopsAnushka",
-    demo: "https://github.com/OopsAnushka",
-  },
-  {
-    title: "Cinematic Render",
-    desc: "High-fidelity cinematic rendering engine for product showcases.",
-    tags: ["Unreal", "C++", "WASM"],
-    // FIXED: Replaced with a reliable cinematic render URL
-    image: "https://images.unsplash.com/photo-1620641788421-7a1c3724c6ce?q=80&w=1080&auto=format&fit=crop",
-    repo: "https://github.com/OopsAnushka",
-    demo: "https://github.com/OopsAnushka",
+    repo: "https://github.com/OopsAnushka/my-portfolio",
+    demo: "https://github.com/OopsAnushka/my-portfolio",
   },
 ];
 
 export function ProjectsSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[0] | null>(null);
-  
-  // Note: Manual sound triggers removed to prevent double-audio with ClientLayout
-
-  const handleNext = () => {
-    // Logic for next slide 
-  };
-
-  const handlePrev = () => {
-    // Logic for prev slide
-  };
 
   return (
     <div id="projects" className="relative flex flex-col items-center justify-center min-h-screen w-full py-10 px-4 overflow-hidden bg-black select-none">
@@ -106,8 +76,45 @@ export function ProjectsSection() {
         showcasing a blend of creativity and technical skill through a curated selection of projects.
       </p>
 
+      {/* Mobile Carousel */}
+      <div className="relative z-10 w-full md:hidden">
+        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-6 px-4 scrollbar-hide">
+          {projects.map((project, index) => (
+            <motion.div
+              key={index}
+              className="snap-center shrink-0 w-[260px] h-[360px] rounded-xl overflow-hidden relative cursor-pointer bg-neutral-900 border border-neutral-800"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.4 }}
+              viewport={{ once: true }}
+              onClick={() => setSelectedProject(project)}
+            >
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover"
+                draggable={false}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <h3 className="text-white text-base font-bold mb-1">{project.title}</h3>
+                <p className="text-neutral-400 text-xs line-clamp-2 mb-2">{project.desc}</p>
+                <div className="flex flex-wrap gap-1">
+                  {project.tags.map(tag => (
+                    <span key={tag} className="px-2 py-0.5 text-[10px] font-medium text-blue-300 bg-blue-900/30 rounded-full border border-blue-900/40">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop Fan Layout */}
       <div 
-        className="relative z-10 flex items-center justify-center gap-0 w-full max-w-[1400px] perspective-[1000px] [transform-style:preserve-3d] h-[500px]"
+        className="relative z-10 hidden md:flex items-center justify-center gap-0 w-full max-w-[1400px] perspective-[1000px] [transform-style:preserve-3d] h-[500px]"
         onMouseLeave={() => setHoveredIndex(null)}
       >
         {projects.map((project, index) => (

@@ -108,7 +108,7 @@ const HeroSection = () => {
         </motion.div>
 
        {/* --- Volume Control Wrapper --- */}
-       <div className="absolute bottom-10 right-6 z-50 flex flex-col items-end gap-2">
+       <div className="absolute bottom-24 md:bottom-10 right-6 z-50 flex flex-col items-end gap-2">
          
          <AnimatePresence>
            {showPrompt && (

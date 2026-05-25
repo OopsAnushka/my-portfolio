@@ -34,7 +34,7 @@ const AboutSection: React.FC = () => {
     <section id="about" className="bg-black text-gray-300 py-10 md:py-28">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        <div className="text-center mb-20">
+        <div className="text-center mb-10 md:mb-20">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}

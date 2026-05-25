@@ -12,7 +12,7 @@ export interface IMessage extends Document {
 const MessageSchema = new Schema<IMessage>({
   name: { type: String, required: true },
   email: { type: String, required: true },
-  subject: { type: String, required: true },
+  subject: { type: String, required: false, default: 'No Subject' },
   message: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });

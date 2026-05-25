@@ -25,7 +25,16 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const menuItems = ['About', 'Skills', 'Projects','Certificates'];
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  const menuItems = ['About', 'Skills', 'Projects', 'Timeline'];
 
   return (
     <motion.header
@@ -38,20 +47,17 @@ export default function Header() {
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-20"> 
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16 md:h-20"> 
 
         {/* Logo */}
         <motion.div
           className="flex items-left gap-2 cursor-pointer"
           whileHover={{ scale: 1.05 }}
-          // Note: If you want the logo to navigate, wrap it in a Link or add an onClick handler.
-          // If it's just a div, it won't trigger the global sound. 
-          // If you want sound here, add: onClick={() => new Audio('/click.mp3').play()}
         >
           <Image
             src={assets.darklogo}
             alt="logo"
-            className="w-20 h-18"
+            className="w-16 h-14 md:w-20 md:h-18"
           />
         </motion.div>
 
@@ -66,7 +72,6 @@ export default function Header() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ scale: 1.05 }}
-              // REMOVED manual onClick={playClickSound} here to prevent double sound
             >
               {item}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black dark:bg-white group-hover:w-full transition-all duration-300"></span>
@@ -80,21 +85,19 @@ export default function Header() {
             href="#contact"
             className="hidden md:block bg-black/70 text-white px-4 py-2 rounded-md shadow-lg hover:bg-black transition-colors duration-300 dark:bg-white dark:text-black"
             whileHover={{ scale: 1.05 }}
-             // REMOVED manual onClick here
           >
             Contact
           </motion.a>
         </div>
 
         {/* Mobile Hamburger */}
-        <div className="md:hidden z-50"> 
+        <div className="md:hidden z-[60]"> 
           <button 
             onClick={() => setIsOpen(!isOpen)} 
             aria-label="Toggle menu" 
-            className="p-2"
-            // REMOVED manual onClick here
+            className="p-2 relative z-[60]"
           >
-            {isOpen ? <X className="text-black dark:text-white" size={28} /> : <Menu className="text-black dark:text-white" size={28} />}
+            {isOpen ? <X className="text-white" size={28} /> : <Menu className="text-white" size={28} />}
           </button>
         </div>
       </div>
@@ -107,18 +110,17 @@ export default function Header() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 right-0 h-screen w-full bg-white dark:bg-black shadow-lg z-40 p-6 flex flex-col justify-center items-center space-y-8"
+            className="fixed top-0 right-0 h-screen w-full bg-black/95 backdrop-blur-lg z-[55] p-6 flex flex-col justify-center items-center space-y-8"
           >
             {[...menuItems, 'Contact'].map((item, index) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-black dark:text-white text-3xl font-medium"
+                className="text-white text-3xl font-medium"
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
                 onClick={() => setIsOpen(false)}
-                 // REMOVED manual onClick here
               >
                 {item}
               </motion.a>

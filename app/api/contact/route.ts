@@ -10,6 +10,7 @@ export async function POST(req: Request) {
     await connectDB();
     const body = await req.json();
     const { name, email, subject, message } = body;
+    const safeSubject = subject || 'No Subject';
 
     // 2. Validate
     if (!name || !email || !message) {
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
         <div style="font-family: Arial, sans-serif; color: #333; padding: 20px;">
           <h2 style="color: #0070f3;">Hey! ${name},</h2>
           <p>Thank you so much for visiting my portfolio and reaching out!</p>
-          <p>I have received your message regarding <strong>"${subject}"</strong> and will get back to you as soon as possible.</p>
+          <p>I have received your message regarding <strong>"${safeSubject}"</strong> and will get back to you as soon as possible.</p>
           <br/>
           <p>Best regards,</p>
           <p><strong>Anushka Sharma</strong><br/>Developer from India</p>

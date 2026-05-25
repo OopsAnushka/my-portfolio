@@ -151,7 +151,7 @@ export default function SkillsSection() {
         </motion.div>
         
         {/* Bento Grid */}
-        <div className="grid grid-cols-3 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
           {skills.map((skill, index) => (
             <motion.div 
               key={skill.id} 

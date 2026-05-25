@@ -4,14 +4,14 @@ import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import About from './components/Aboutdark';
 import {ProjectsSection} from './components/ProjectsSection';
-import CertificationSection from './components/CertificationSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import SkillsSection from './components/SkillsSection';
+import TimelineSection from './components/TimelineSection';
 
 export default function Home() {
   return (
-    <div className="bg-black min-h-screen">
+    <div className="position: relative bg-black min-h-screen">
       <Header />
       
       {/* The Hero is now fixed inside its own component CSS */}
@@ -22,7 +22,7 @@ export default function Home() {
         <About />
         <SkillsSection />
         <ProjectsSection />
-        <CertificationSection />
+        <TimelineSection />
         <ContactSection />
         <Footer />
       </div>

@@ -1,17 +1,15 @@
 .heroContainer {
   width: 100vw;
   height: 100vh;
-  position: fixed;  /* CHANGED: Sticks the hero in place */
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 0;       /* CHANGED: Sends it behind other content */
+  z-index: 0;
   overflow: hidden;
   background-color: #111;
   cursor: none;
   filter: sepia(0.2) brightness(0.95);
 }
-
-/* --- (Other styles for layers and text) --- */
 
 .bottomLayer,
 .topLayer {
@@ -47,6 +45,7 @@
   text-align: center;
   color: white;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  padding: 0 1rem;
 }
 
 .bottomLayer .textContainer h1,
@@ -55,29 +54,20 @@
   text-shadow: none;
 }
 
-/* --- ✨ VIDEO-ACCURATE GRAIN EFFECT ✨ --- */
+/* --- GRAIN EFFECT --- */
 .filmGrain {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-
-  /* 1. FINER GRAIN TEXTURE */
-  /* Increased baseFrequency for smaller, denser particles like the video. */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-
-  /* 2. BETTER BLENDING */
-  /* 'screen' makes the grain blend naturally with the image's light/dark areas. */
   mix-blend-mode: screen;
-  opacity: 0.22; /* Fine-tuned for the new blend mode */
-
-  /* 3. FAST & CHAOTIC ANIMATION */
-  /* Very short duration and linear timing creates a high-frequency vibration. */
+  opacity: 0.22;
   animation: flick 0.12s linear infinite;
 }
 
-/* New keyframes for a chaotic jitter effect, not a simple shimmer. */
-@keyframes grainVibrate {
+/* FIX: Added the missing 'flick' keyframes */
+@keyframes flick {
   0% { transform: translate(0, 0); }
   10% { transform: translate(-1px, -1px); }
   20% { transform: translate(1px, -1px); }
@@ -94,16 +84,14 @@
 /* --- Scroll To Explore Button --- */
 .scrollButton {
   position: absolute;
-  bottom: 40px; /* Adjust vertical position from the bottom */
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px; /* Space between text and icon */
-  
+  gap: 8px;
   color: white;
   text-decoration: none;
   font-size: 0.9rem;
@@ -118,13 +106,10 @@
   opacity: 1;
 }
 
-/* The animated arrow icon */
 .scrollIcon {
   animation: bounce 2s infinite;
 }
 
-
-/* --- Keyframes for the bounce animation --- */
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
@@ -137,4 +122,37 @@
   }
 }
 
+/* --- Mobile --- */
+@media (max-width: 768px) {
+  .heroContainer {
+    cursor: auto;
+  }
+  .textContainer h1 {
+    font-size: 1.2rem !important;
+    line-height: 1.5;
+  }
+  .scrollButton {
+    bottom: 100px;
+    font-size: 0.75rem;
+  }
+}
 
+@media (max-width: 480px) {
+  .textContainer h1 {
+    font-size: 1rem !important;
+  }
+  .scrollButton {
+    bottom: 110px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .textContainer h1 {
+    font-size: 0.85rem !important;
+  }
+  .scrollButton {
+    bottom: 120px;
+    font-size: 0.65rem;
+  }
+}
