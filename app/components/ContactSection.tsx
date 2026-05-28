@@ -101,7 +101,7 @@ export default function ContactSection() {
               <div className="space-y-4 md:space-y-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center bg-gradient-to-r from-[#D8ECF8]/20 to-white/20 rounded-full">
-                    <Mail className="text-[#D8ECF8] w-4 h-4 md:w-5 md:h-5" />
+                    <Mail className="text-blue-500 w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-gray-400 text-xs md:text-sm">Email</p>
@@ -111,7 +111,7 @@ export default function ContactSection() {
 
                 <div className="flex items-center space-x-4">
                   <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center bg-gradient-to-r from-[#D8ECF8]/20 to-white/20 rounded-full">
-                    <Phone className="text-[#D8ECF8] w-4 h-4 md:w-5 md:h-5" />
+                    <Phone className="text-blue-500 w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-xs md:text-sm">Phone</p>
@@ -121,7 +121,7 @@ export default function ContactSection() {
 
                 <div className="flex items-center space-x-4">
                   <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center bg-gradient-to-r from-[#D8ECF8]/20 to-white/20 rounded-full">
-                    <MapPin className="text-[#D8ECF8] w-4 h-4 md:w-5 md:h-5" />
+                    <MapPin className="text-blue-500 w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-xs md:text-sm">Location</p>
@@ -146,7 +146,7 @@ export default function ContactSection() {
                       whileHover={{ scale: 1.1, boxShadow: `0 0 20px ${social.color}40` }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <Icon className="w-4 h-4 md:w-5 md:h-5 text-gray-400 group-hover:text-[#D8ECF8] transition-colors duration-300" />
+                      <Icon className="w-4 h-4 md:w-5 md:h-5 text-blue-500 group-hover:text-[#D8ECF8] transition-colors duration-300" />
                     </motion.a>
                   );
                 })}

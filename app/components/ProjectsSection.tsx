@@ -8,9 +8,9 @@ import { Github, ExternalLink, X, Maximize2 } from "lucide-react";
 const projects = [
   {
     title: "AeroCare",
-    desc: "A full-stack TypeScript application for aviation care management with a modern UI, deployed on Vercel.",
+    desc: "A full-stack TypeScript application for emergency response management with necessary features like blood donor connect ,hospital live updates ,ambulance booking and real life interactions,deployed on Vercel.",
     tags: ["TypeScript", "Next.js", "Vercel"],
-    image: "https://images.unsplash.com/photo-1436491865332-7a61a109db05?q=80&w=1080&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1642438114426-bad6b9ce05da?w=600&auto=format&fit=crop",
     repo: "https://github.com/OopsAnushka/AeroCare",
     demo: "https://aero-care-gamma.vercel.app",
   },
@@ -23,36 +23,52 @@ const projects = [
     demo: "https://stay-space-woad.vercel.app/",
   },
   {
-    title: "J&K Career Advisor",
-    desc: "SIH 2025 project — A personalized career and education advisory platform for J&K students.",
-    tags: ["SIH 2025", "Full-Stack", "AI"],
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c476?q=80&w=1080&auto=format&fit=crop",
-    repo: "https://github.com/OopsAnushka/jk-career-advisor",
-    demo: "https://github.com/OopsAnushka/jk-career-advisor",
-  },
-  {
     title: "Game of Life",
     desc: "Conway's Game of Life — a new variant with interactive cellular automaton simulation.",
-    tags: ["JavaScript", "Canvas", "Algorithms"],
+    tags: ["JavaScript", "python" , "Canvas", "Algorithms"],
     image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1080&auto=format&fit=crop",
     repo: "https://github.com/OopsAnushka/game_of_life",
     demo: "https://github.com/OopsAnushka/game_of_life",
   },
   {
-    title: "Portfolio v1",
-    desc: "First iteration of my personal portfolio website with modern animations and interactive design.",
-    tags: ["TypeScript", "Next.js", "Framer Motion"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1080&auto=format&fit=crop",
-    repo: "https://github.com/OopsAnushka/portfolio-anushka",
-    demo: "https://github.com/OopsAnushka/portfolio-anushka",
-  },
-  {
-    title: "This Portfolio",
+    title: "Portfolio",
     desc: "My current portfolio — cinematic, interactive website with 3D effects and contact form backend.",
     tags: ["Next.js", "Three.js", "MongoDB"],
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1080&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&auto=format&fit=crop",
     repo: "https://github.com/OopsAnushka/my-portfolio",
     demo: "https://github.com/OopsAnushka/my-portfolio",
+  },
+  {
+    title: "dummy project",
+    desc: "update very soon",
+    tags: ["dummy"],
+    image: "https://images.unsplash.com/photo-1710609942195-b9dab8f48fc6?w=600&auto=format&fit=crop",
+    repo: "https://github.com/OopsAnushka",
+    demo: "https://github.com/OopsAnushka",
+  },
+  {
+   title: "dummy project",
+   desc: "update very soon",
+   tags: ["dummy"],
+   image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&auto=format&fit=crop",
+   repo: "https://github.com/OopsAnushka",
+   demo: "https://github.com/OopsAnushka",
+  },
+  {
+   title: "dummy project",
+   desc: "update very soon",
+   tags: ["dummy"],
+   image: "https://images.unsplash.com/photo-1553649084-3e42773ff0e3?w=600&auto=format&fit=crop",
+   repo: "https://github.com/OopsAnushka",
+   demo: "https://github.com/OopsAnushka",
+  },
+  {
+   title: "dummy project",
+   desc: "update very soon",
+   tags: ["dummy"],
+   image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=600&auto=format&fit=crop",
+   repo: "https://github.com/OopsAnushka",
+   demo: "https://github.com/OopsAnushka",
   },
 ];
 
@@ -61,18 +77,18 @@ export function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[0] | null>(null);
 
   return (
-    <div id="projects" className="relative flex flex-col items-center justify-center min-h-screen w-full py-10 px-4 overflow-hidden bg-black select-none">
+    <div id="projects" className="relative flex flex-col items-center justify-center min-h-screen w-full py-5 px-4 overflow-hidden bg-black select-none">
       
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
          <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-black rounded-full blur-[120px]" />
-         <div className="absolute bottom-[-10%] right-[20%] w-[400px] h-[400px] bg-black rounded-full blur-[100px]" />
+         <div className="absolute bottom-[-10%] right-[20%] w-[400px] h-[300px] bg-black rounded-full blur-[100px]" />
       </div>
 
-      <h2 className="relative z-10 text-4xl md:text-6xl font-black text-white mb-12">
+      <h2 className="relative z-10 text-3xl md:text-6xl font-black text-white mb-6">
         Work Gallery
       </h2>
-      <p className="relative z-8 text-gray-500 max-w-lg mx-2 text-sm md:text-base mb-8 text-center">
+      <p className="relative z-8 text-gray-500 max-w-lg mx-2 text-sm md:text-base mb-4 text-center">
         showcasing a blend of creativity and technical skill through a curated selection of projects.
       </p>
 
@@ -114,7 +130,7 @@ export function ProjectsSection() {
 
       {/* Desktop Fan Layout */}
       <div 
-        className="relative z-10 hidden md:flex items-center justify-center gap-0 w-full max-w-[1400px] perspective-[1000px] [transform-style:preserve-3d] h-[500px]"
+        className="relative z-10 hidden md:flex items-center justify-center gap-0 w-full max-w-[1400px] perspective-[1000px] [transform-style:preserve-3d] h-[300px]"
         onMouseLeave={() => setHoveredIndex(null)}
       >
         {projects.map((project, index) => (
@@ -336,6 +352,7 @@ function GalleryItem({
           className="w-full h-full object-cover rounded-xl blur-[3px]" 
         />
       </div>
+      
     </motion.div>
   );
 }

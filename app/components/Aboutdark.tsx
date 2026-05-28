@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 const stats = [
   { number: '0', label: 'Years Experience' },
-  { number: '2+', label: 'Projects Completed' },
+  { number: '5+', label: 'Projects Completed' },
   { number: 'MILLIONS', label: 'of Lines of Code' },
   { number: 'HUNDREDS', label: 'of Screens Designed' },
   { number: '∞', label: 'Coffee Consumed' },

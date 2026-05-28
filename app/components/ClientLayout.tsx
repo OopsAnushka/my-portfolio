@@ -5,7 +5,6 @@ import Preloader from "./Preloader";
 import Providers from './theme-provider';
 import { ControlDock } from './ControlDock';
 import SmoothScroll from './SmoothScroll';
-import CustomCursor from './CustomCursor';
 
 export default function ClientLayout({
   children,
@@ -33,7 +32,6 @@ export default function ClientLayout({
   return (
     <Providers>
       <Preloader>
-        <CustomCursor />
         <SmoothScroll>
           <main className="font-sans text-[18px] md:text-[20px] leading-relaxed selection:bg-white selection:text-black">
             {children}
