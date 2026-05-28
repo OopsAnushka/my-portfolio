@@ -61,6 +61,7 @@
 html, :root {
   --font-pompiere: 'Pompiere', cursive;
   --font-inter: 'Inter', sans-serif;
+  position: relative;
 }
 
 body {

@@ -15,7 +15,7 @@ const skills = [
     icon: <Layout className="w-6 h-6 md:w-8 md:h-8" />, 
     // We keep these for the expanded view accents, but the grid will be uniform
     color: '#3B82F6', 
-    size: 'col-span-2' 
+    size: 'md:col-span-2' 
   },
   { 
     id: 2, 
@@ -55,7 +55,7 @@ const skills = [
     tech: ['HTML5', 'CSS3', 'Responsive Design', 'SEO', 'Accessibility'], 
     icon: <Globe className="w-6 h-6 md:w-8 md:h-8" />, 
     color: '#007AFF', 
-    size: 'col-span-2' 
+    size: 'md:col-span-2' 
   },
 ];
 
@@ -187,9 +187,9 @@ export default function SkillsSection() {
                     >
                       {skill.name}
                     </motion.h3>
-                    <p className="text-zinc-400 text-[10px] md:text-sm line-clamp-2 leading-tight">
+                    {/* <p className="text-zinc-400 text-[10px] md:text-sm line-clamp-2 leading-tight">
                       {skill.tech.join(' • ')}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </SkillCard>
@@ -243,7 +243,7 @@ export default function SkillsSection() {
                   <div>
                     <motion.h3 
                       layoutId={`title-${selectedSkill.id}`} 
-                      className="text-2xl md:text-5xl font-bold text-white mb-1 md:mb-2"
+                      className="text-2xl md:text-5xl font-bold text-blue-500 mb-1 md:mb-2"
                     >
                       {selectedSkill.name}
                     </motion.h3>

@@ -8,21 +8,23 @@ import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import SkillsSection from './components/SkillsSection';
 import TimelineSection from './components/TimelineSection';
+import BlogSection from './components/BlogSection';
 
 export default function Home() {
   return (
-    <div className="position: relative bg-black min-h-screen">
+    <div className="relative bg-black min-h-screen">
       <Header />
       
-      {/* The Hero is now fixed inside its own component CSS */}
+      {/* Hero with scroll-driven image expansion */}
       <HeroSection />
 
-      {/* THE IMPORTANT PART: Push content down by 100vh and enable scrolling */}
-      <div className="relative z-10 bg-black mt-[100vh] shadow-[0_-20px_60px_rgba(0,0,0,0.8)]">
+      {/* Main content — follows after hero scroll space */}
+      <div className="relative z-10 bg-black shadow-[0_-20px_60px_rgba(0,0,0,0.8)]">
         <About />
         <SkillsSection />
         <ProjectsSection />
         <TimelineSection />
+        <BlogSection />
         <ContactSection />
         <Footer />
       </div>

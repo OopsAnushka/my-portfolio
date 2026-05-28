@@ -12,6 +12,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         smoothWheel: true 
         // wheelMultiplier: 1, // Adjust if you want to speed up/slow down the scroll speed
       }}
+      className="relative"
     >
       {children}
     </ReactLenis>

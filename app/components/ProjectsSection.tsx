@@ -88,7 +88,7 @@ export function ProjectsSection() {
       <h2 className="relative z-10 text-3xl md:text-6xl font-black text-white mb-6">
         Work Gallery
       </h2>
-      <p className="relative z-8 text-gray-500 max-w-lg mx-2 text-sm md:text-base mb-4 text-center">
+      <p className="relative z-8 text-gray-500 pb-6 max-w-lg mx-2 text-sm md:text-base mb-4 text-center">
         showcasing a blend of creativity and technical skill through a curated selection of projects.
       </p>
 
@@ -219,6 +219,9 @@ export function ProjectsSection() {
           </motion.div>
         )}
       </AnimatePresence>
+      <div>
+          <p className="relative z-8 text-gray-500  pt-6 max-w-lg mx-2 text-sm md:text-base mb-4 text-center">Swipe to explore more projects</p>
+        </div>
     </div>
   );
 }
