@@ -10,7 +10,7 @@ import { assets } from '../assets/assets';
 import { Menu, X } from 'lucide-react';
 
 // Section links (anchor-based, scroll on home page)
-const sectionItems = ['About', 'Skills', 'Projects', 'Timeline', 'Blog'];
+const sectionItems = ['About', 'Skills', 'Projects', 'Blog'];
 
 // Page links (route-based, right side of divider)
 const pageItems = [

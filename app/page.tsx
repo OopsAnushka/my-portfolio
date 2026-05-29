@@ -7,7 +7,6 @@ import {ProjectsSection} from './components/ProjectsSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import SkillsSection from './components/SkillsSection';
-import TimelineSection from './components/TimelineSection';
 import BlogSection from './components/BlogSection';
 
 export default function Home() {
@@ -23,7 +22,6 @@ export default function Home() {
         <About />
         <SkillsSection />
         <ProjectsSection />
-        <TimelineSection />
         <BlogSection />
         <ContactSection />
         <Footer />

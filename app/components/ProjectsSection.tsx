@@ -85,12 +85,10 @@ export function ProjectsSection() {
          <div className="absolute bottom-[-10%] right-[20%] w-[400px] h-[300px] bg-black rounded-full blur-[100px]" />
       </div>
 
-      <h2 className="relative z-10 text-3xl md:text-6xl font-black text-white mb-6">
-        Work Gallery
+      <h2 className="relative z-10 text-lg md:text-2xl font-black text-white mb-6">
+        Things <span style={ {fontFamily: 'var(--font-inter)'}}> I've designed.</span> 
       </h2>
-      <p className="relative z-8 text-gray-500 pb-6 max-w-lg mx-2 text-sm md:text-base mb-4 text-center">
-        showcasing a blend of creativity and technical skill through a curated selection of projects.
-      </p>
+     
 
       {/* Mobile Carousel */}
       <div className="relative z-10 w-full md:hidden">
